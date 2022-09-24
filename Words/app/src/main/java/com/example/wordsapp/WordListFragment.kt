@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wordsapp.databinding.FragmentWordListBinding
 
-class WorldListFragment : Fragment() {
+class WordListFragment : Fragment() {
 
     companion object {
         const val LETTER = "letter"

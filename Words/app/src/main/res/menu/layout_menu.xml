@@ -6,5 +6,5 @@
         android:icon="@drawable/ic_linear_layout"
         android:title="@string/action_switch_layout"
         app:showAsAction="always" />
-    
+
 </menu>

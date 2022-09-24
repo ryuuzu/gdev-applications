@@ -18,6 +18,7 @@ package com.example.android.dessertclicker
 
 import android.content.ActivityNotFoundException
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -37,6 +38,8 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val TAG = "MainActivity"
+        const val KEY_REVENUE = "revenue_key"
+        const val KEY_DESSERT_SOLD = "dessert_sold_key"
     }
 
     /** Dessert Data **/
@@ -71,6 +74,12 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate Called")
         // Use Data Binding to get reference to the views
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        if (savedInstanceState != null) {
+            revenue = savedInstanceState.getInt(KEY_REVENUE, 0)
+            dessertsSold = savedInstanceState.getInt(KEY_DESSERT_SOLD, 0)
+            showCurrentDessert()
+        }
 
         binding.dessertButton.setOnClickListener {
             onDessertClicked()
@@ -113,6 +122,15 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         Log.d(TAG, "onDestroy Called")
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putInt(KEY_DESSERT_SOLD, dessertsSold)
+        outState.putInt(KEY_REVENUE, revenue)
+        Log.d(TAG, "onSaveInstanceState Called")
+    }
+
 
     /**
      * Updates the score when the dessert is clicked. Possibly shows a new dessert.

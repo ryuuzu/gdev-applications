@@ -19,6 +19,9 @@ class GameViewModel : ViewModel() {
     val currentScrambledWord: String
         get() = _currentScrambledWord
 
+    val score: Int
+        get() = _score
+
     init {
         Log.d(GTAG, "GameViewModel Created")
         getNextWord()

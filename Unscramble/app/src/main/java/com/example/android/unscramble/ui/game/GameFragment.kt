@@ -55,7 +55,7 @@ class GameFragment : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
-        Log.d(TAG, "GameFragment Destroyed!")
+        Log.d(TAG, "GameViewModel Destroyed!")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

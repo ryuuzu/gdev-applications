@@ -51,6 +51,10 @@ class GameFragment : Fragment() {
         // Inflate the layout XML file and return a binding object instance
         binding = GameFragmentBinding.inflate(inflater, container, false)
         Log.d(TAG, "GameViewModel created/re-created!")
+        Log.d(
+            TAG,
+            "Word: ${viewModel.currentScrambledWord} Score: ${viewModel.score} WordCount: ${viewModel.currentWordCount}"
+        )
         return binding.root
     }
 
@@ -67,9 +71,9 @@ class GameFragment : Fragment() {
         binding.skip.setOnClickListener { onSkipWord() }
         // Update the UI
         updateNextWordOnScreen()
-        binding.score.text = getString(R.string.score, 0)
+        binding.score.text = getString(R.string.score, viewModel.score)
         binding.wordCount.text = getString(
-            R.string.word_count, 0, MAX_NO_OF_WORDS
+            R.string.word_count, viewModel.currentWordCount, MAX_NO_OF_WORDS
         )
     }
 
@@ -147,6 +151,10 @@ class GameFragment : Fragment() {
      */
     private fun updateNextWordOnScreen() {
         binding.textViewUnscrambledWord.text = viewModel.currentScrambledWord
+        binding.score.text = getString(R.string.score, viewModel.score)
+        binding.wordCount.text = getString(
+            R.string.word_count, viewModel.currentWordCount, MAX_NO_OF_WORDS
+        )
     }
 
     private fun showFinalScoreDialog() {

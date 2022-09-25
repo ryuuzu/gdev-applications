@@ -4,24 +4,48 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 
 class GameViewModel : ViewModel() {
+
     companion object {
         const val TAG = "GameViewModel"
         const val GTAG = "GameFragment"
     }
 
+    private var wordsList: MutableList<String> = mutableListOf()
+    private lateinit var currentWord: String
+    private lateinit var _currentScrambledWord: String
     private var _score = 0
     private var _currentWordCount = 0
-    private var _currentScrambledWord = "test"
 
     val currentScrambledWord: String
         get() = _currentScrambledWord
 
     init {
         Log.d(GTAG, "GameViewModel Created")
+        getNextWord()
     }
 
     override fun onCleared() {
         super.onCleared()
         Log.d(GTAG, "GameViewModel Destroyed")
+    }
+
+    fun nextWord(): Boolean {
+        return if (_currentWordCount < MAX_NO_OF_WORDS) {
+            getNextWord()
+            true
+        } else false
+    }
+
+    private fun getNextWord() {
+        currentWord = allWordsList.random()
+        while (wordsList.contains(currentWord)) {
+            currentWord = allWordsList.random()
+        }
+        _currentScrambledWord = currentWord
+        while (_currentScrambledWord.equals(currentWord, false)) {
+            _currentScrambledWord = currentWord.toList().shuffled().joinToString("")
+        }
+        wordsList.add(currentWord)
+        ++_currentWordCount
     }
 }

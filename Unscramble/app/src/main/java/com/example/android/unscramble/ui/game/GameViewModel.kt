@@ -27,6 +27,17 @@ class GameViewModel : ViewModel() {
         getNextWord()
     }
 
+    private fun increaseScore() {
+        _score += SCORE_INCREASE
+    }
+
+    fun isUserWordCorrect(input: String): Boolean {
+        return if (currentWord.equals(input, true)) {
+            increaseScore()
+            true
+        } else false
+    }
+
     override fun onCleared() {
         super.onCleared()
         Log.d(GTAG, "GameViewModel Destroyed")
@@ -40,9 +51,9 @@ class GameViewModel : ViewModel() {
     }
 
     private fun getNextWord() {
-        currentWord = allWordsList.random()
+        currentWord = allWordsList.shuffled().random()
         while (wordsList.contains(currentWord)) {
-            currentWord = allWordsList.random()
+            currentWord = allWordsList.shuffled().random()
         }
         _currentScrambledWord = currentWord
         while (_currentScrambledWord.equals(currentWord, false)) {

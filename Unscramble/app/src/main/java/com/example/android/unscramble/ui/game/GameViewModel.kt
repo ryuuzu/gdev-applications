@@ -1,16 +1,10 @@
 package com.example.android.unscramble.ui.game
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class GameViewModel : ViewModel() {
-
-    companion object {
-        const val TAG = "GameViewModel"
-        const val GTAG = "GameFragment"
-    }
 
     private var wordsList: MutableList<String> = mutableListOf()
     private lateinit var _currentWord: String
@@ -30,7 +24,6 @@ class GameViewModel : ViewModel() {
         get() = _currentWordCount
 
     init {
-        Log.d(GTAG, "GameViewModel Created")
         getNextWord()
     }
 
@@ -52,10 +45,6 @@ class GameViewModel : ViewModel() {
         } else false
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        Log.d(GTAG, "GameViewModel Destroyed")
-    }
 
     fun nextWord(): Boolean {
         return if (_currentWordCount.value!! < MAX_NO_OF_WORDS) {

@@ -17,7 +17,6 @@
 package com.example.android.unscramble.ui.game
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,9 +32,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
  */
 class GameFragment : Fragment() {
 
-    companion object {
-        const val TAG = "GameFragment"
-    }
 
     // Binding object instance with access to the views in the game_fragment.xml layout
     private lateinit var binding: GameFragmentBinding
@@ -51,37 +47,22 @@ class GameFragment : Fragment() {
     ): View {
         // Inflate the layout XML file and return a binding object instance
         binding = DataBindingUtil.inflate(inflater, R.layout.game_fragment, container, false)
-        Log.d(TAG, "GameViewModel created/re-created!")
-        Log.d(
-            TAG,
-            "Word: ${viewModel.currentScrambledWord} Score: ${viewModel.score} WordCount: ${viewModel.currentWordCount}"
-        )
+
         return binding.root
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        Log.d(TAG, "GameViewModel Destroyed!")
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.gameViewModel = viewModel
+        binding.maxNoOfWords = MAX_NO_OF_WORDS
+
+        binding.lifecycleOwner = viewLifecycleOwner
+
         // Setup a click listener for the Submit and Skip buttons.
         binding.submit.setOnClickListener { onSubmitWord() }
         binding.skip.setOnClickListener { onSkipWord() }
-
-        viewModel.currentScrambledWord.observe(viewLifecycleOwner) { newWord ->
-            binding.textViewUnscrambledWord.text = newWord
-        }
-
-        viewModel.currentWordCount.observe(viewLifecycleOwner) {
-            binding.wordCount.text = getString(R.string.word_count, it, MAX_NO_OF_WORDS)
-        }
-
-        viewModel.score.observe(viewLifecycleOwner) {
-            binding.score.text = getString(R.string.score, it)
-        }
     }
 
     /*

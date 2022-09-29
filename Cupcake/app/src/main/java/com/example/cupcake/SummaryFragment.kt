@@ -39,8 +39,7 @@ class SummaryFragment : Fragment() {
     private val sharedViewModel: OrderViewModel by activityViewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val fragmentBinding = FragmentSummaryBinding.inflate(inflater, container, false)
         binding = fragmentBinding
@@ -61,20 +60,24 @@ class SummaryFragment : Fragment() {
      * Submit the order by sharing out the order details to another app via an implicit intent.
      */
     fun sendOrder() {
+        val orderFor = binding?.nameEditText?.text.toString()
         val numberOfCupcakes = sharedViewModel.quantity.value ?: 0
-        val orderSummary =
-            getString(
-                R.string.order_details,
-                resources.getQuantityString(R.plurals.cupcakes, numberOfCupcakes, numberOfCupcakes),
-                sharedViewModel.flavour.value.toString(),
-                sharedViewModel.pickUpDate.value.toString(),
-                sharedViewModel.price.value.toString()
-            )
+        val orderSummary = getString(
+            R.string.order_details,
+            resources.getQuantityString(R.plurals.cupcakes, numberOfCupcakes, numberOfCupcakes),
+            sharedViewModel.flavour.value.toString(),
+            sharedViewModel.pickUpDate.value.toString(),
+            sharedViewModel.price.value.toString()
+        )
+        val finalOrderSummary = if (orderFor.isEmpty()) {
+            "Order For: $orderFor \n$orderSummary"
+        } else {
+            orderSummary
+        }
 
-        val intent = Intent(Intent.ACTION_SEND)
-            .setType("text/plain")
+        val intent = Intent(Intent.ACTION_SEND).setType("text/plain")
             .putExtra(Intent.EXTRA_SUBJECT, getString(R.string.new_cupcake_order))
-            .putExtra(Intent.EXTRA_TEXT, orderSummary)
+            .putExtra(Intent.EXTRA_TEXT, finalOrderSummary)
             .putExtra(Intent.EXTRA_EMAIL, "utsavgurmachhan@gmail.com")
 
         if (activity?.packageManager?.resolveActivity(intent, 0) != null) {

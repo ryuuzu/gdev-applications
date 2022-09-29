@@ -21,6 +21,11 @@
 
     <data>
 
+
+        <variable
+            name="pickUpFragment"
+            type="com.example.cupcake.PickupFragment" />
+
         <variable
             name="viewModel"
             type="com.example.cupcake.model.OrderViewModel" />
@@ -97,6 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/side_margin"
+                android:text="@{@string/subtotal_price(viewModel.price)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/divider"
                 tools:text="Subtotal $5.00" />
@@ -109,6 +115,7 @@
                 android:text="@string/next"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:onClick="@{() -> pickUpFragment.goToNextScreen()}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/subtotal" />
 

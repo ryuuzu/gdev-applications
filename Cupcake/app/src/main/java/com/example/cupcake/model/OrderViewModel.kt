@@ -22,12 +22,14 @@ class OrderViewModel : ViewModel() {
     private val _pickUpDate = MutableLiveData<String>()
     val pickUpDate: LiveData<String> = this._pickUpDate
 
+    private val _formatter = SimpleDateFormat("E, MMM d", Locale.getDefault())
+
     private val _price = MutableLiveData<Double>()
     val price: LiveData<String> = Transformations.map(_price) {
         NumberFormat.getCurrencyInstance().format(it)
     }
 
-    val dateOptions = getPickUpOptions()
+    var dateOptions = getPickUpOptions()
 
     init {
         resetOrder()
@@ -40,6 +42,11 @@ class OrderViewModel : ViewModel() {
         _price.value = 0.0
     }
 
+    private fun refreshPickUpOptions() {
+        dateOptions = getPickUpOptions()
+        _pickUpDate.value = dateOptions[0]
+    }
+
 
     fun setQuantity(numberCupcakes: Int) {
         _quantity.value = numberCupcakes
@@ -48,6 +55,7 @@ class OrderViewModel : ViewModel() {
 
     fun setFlavour(desiredFlavour: String) {
         _flavour.value = desiredFlavour
+        refreshPickUpOptions()
         updatePrice()
     }
 
@@ -63,10 +71,14 @@ class OrderViewModel : ViewModel() {
     private fun getPickUpOptions(): List<String> {
         val options = mutableListOf<String>()
 
-        val formatter = SimpleDateFormat("E, MMM d", Locale.getDefault())
         val calendar = Calendar.getInstance()
+
+        if (_flavour.value.equals("Special Flavor")) {
+            calendar.add(Calendar.DATE, 1)
+        }
+
         repeat(4) {
-            options.add(formatter.format(calendar.time))
+            options.add(_formatter.format(calendar.time))
             calendar.add(Calendar.DATE, 1)
         }
         return options
@@ -74,7 +86,7 @@ class OrderViewModel : ViewModel() {
 
     private fun updatePrice() {
         var calculatedPrice = (quantity.value ?: 0) * PRICE_PER_CUPCAKE
-        if (_pickUpDate.value.equals(dateOptions[0])) {
+        if (_pickUpDate.value.equals(_formatter.format(Calendar.getInstance().time))) {
             calculatedPrice += PRICE_FOR_SAME_DAY_PICKUP
         }
         _price.value = calculatedPrice

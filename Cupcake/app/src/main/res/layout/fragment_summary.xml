@@ -58,6 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/order_summary_margin"
+                    android:text="@{viewModel.quantity.toString()}"
                     tools:text="6 cupcakes" />
 
                 <View
@@ -80,6 +81,7 @@
                     style="@style/Widget.Cupcake.TextView.OrderSummary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@{viewModel.flavour}"
                     android:layout_marginTop="@dimen/order_summary_margin"
                     tools:text="Chocolate" />
 
@@ -102,6 +104,7 @@
                     android:id="@+id/date"
                     style="@style/Widget.Cupcake.TextView.OrderSummary"
                     android:layout_width="wrap_content"
+                    android:text="@{viewModel.pickUpDate}"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/order_summary_margin"
                     tools:text="Sunday" />

@@ -7,23 +7,34 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class OrderViewModel : ViewModel() {
-    private val _quantity = MutableLiveData(0)
+    private val _quantity = MutableLiveData<Int>()
     val quantity: LiveData<Int>
         get() = this._quantity
 
-    private val _flavour = MutableLiveData("")
+    private val _flavour = MutableLiveData<String>()
     val flavour: LiveData<String> = this._flavour
 
-    private val _pickUpDate = MutableLiveData("")
+    private val _pickUpDate = MutableLiveData<String>()
     val pickUpDate: LiveData<String> = this._pickUpDate
 
-    private val _price = MutableLiveData(0.0)
+    private val _price = MutableLiveData<Double>()
     val price: LiveData<Double> = this._price
 
     val dateOptions = getPickUpOptions()
 
+    init {
+        resetOrder()
+    }
 
-    fun setQuantitiy(numberCupcakes: Int) {
+    fun resetOrder() {
+        _quantity.value = 0
+        _flavour.value = ""
+        _pickUpDate.value = dateOptions[0]
+        _price.value = 0.0
+    }
+
+
+    fun setQuantity(numberCupcakes: Int) {
         _quantity.value = numberCupcakes
     }
 

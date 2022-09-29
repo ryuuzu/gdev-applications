@@ -70,9 +70,9 @@ class SummaryFragment : Fragment() {
             sharedViewModel.price.value.toString()
         )
         val finalOrderSummary = if (orderFor.isEmpty()) {
-            "Order For: $orderFor \n$orderSummary"
-        } else {
             orderSummary
+        } else {
+            "Order For: $orderFor \n $orderSummary"
         }
 
         val intent = Intent(Intent.ACTION_SEND).setType("text/plain")
